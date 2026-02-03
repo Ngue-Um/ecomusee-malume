@@ -5,7 +5,7 @@ title: Accueil
 
 <div class="hero">
   <div class="hero-content">
-    <h1 class="hero-title">Écomusée Ferroviaire de Malume</h1>
+    <h1 class="hero-title">Écomusée de Malume</h1>
     <p class="hero-subtitle">Préservation • Mémoire • Nature</p>
     <p class="hero-description">
       Une initiative communautaire pour documenter, protéger et transmettre les vestiges 
