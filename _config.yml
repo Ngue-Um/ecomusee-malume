@@ -1,34 +1,27 @@
-title: "Ecomusée de Malume"
-description: "Projet d’écomusée ferroviaire de Malume (Eséka, Cameroun) : patrimoine, mémoire et nature."
-theme: null
-
-remote_theme: just-the-docs/just-the-docs
-
-# GitHub Pages (compte: Ngue-Um, dépôt: ecomusee-malume)
-url: "https://ngue-um.github.io"
+title: Écomusée Ferroviaire de Malume
+description: Préservation et valorisation du patrimoine ferroviaire colonial de la région de Malume, Cameroun
 baseurl: "/ecomusee-malume"
+url: "https://ngue-um.github.io"
 
-search_enabled: true
+# Contact
+email: contact@ecomusee-malume.org
+phone: "+237 677 06 68 03 / 694 41 86 95"
 
-just_the_docs:
-  nav_sort: case_insensitive
-  nav_external_links_new_tab: true
-  color_scheme: ecomusee
-
-collections:
-  pages:
-    output: true
-    permalink: /:path/
-
-defaults:
-  - scope:
-      path: ""
-      type: pages
-    values:
-      layout: default
-
-encoding: "utf-8"
+# Build settings
 markdown: kramdown
+theme: minima
 
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude files
 exclude:
   - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .sass-cache
+  - .jekyll-cache

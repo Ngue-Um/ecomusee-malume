@@ -1,10 +1,7 @@
 ---
 layout: page
-title: À Propos
-permalink: /a-propos/
+title: À Propos de l'Association
 ---
-
-# À Propos de l'Association Écomusée de Malume
 
 ## Notre Vision
 
@@ -14,35 +11,32 @@ Préserver et valoriser le patrimoine ferroviaire colonial de la région de Malu
 
 L'Association Écomusée de Malume s'est donnée pour mission de :
 
-### 1. Préservation du Patrimoine
-
+### Préservation du Patrimoine
 - Documenter et protéger les infrastructures ferroviaires coloniales encore existantes
 - Lutter contre le pillage et la détérioration des ponts, rails et autres ouvrages
 - Sensibiliser les populations locales à l'importance de ce patrimoine
 
-### 2. Mémoire Historique
-
+### Mémoire Historique
 - Honorer la mémoire des travailleurs forcés, venus de diverses régions du Cameroun et au-delà
 - Collecter et préserver les témoignages oraux des anciens
 - Reconstituer l'histoire de la construction du chemin de fer
 
-### 3. Recherche et Documentation
-
+### Recherche et Documentation
 - Mener des recherches archivistiques sur la période coloniale
 - Documenter photographiquement l'état actuel des infrastructures
 - Publier des études historiques et techniques sur le patrimoine ferroviaire
 
-### 4. Éducation et Sensibilisation
-
+### Éducation et Sensibilisation
 - Créer des supports pédagogiques pour les écoles
 - Organiser des visites guidées éducatives
 - Développer un centre d'interprétation à Malume
 
-### 5. Valorisation Touristique
-
+### Valorisation Touristique
 - Développer des circuits de visite sécurisés
 - Promouvoir le tourisme culturel et historique dans la région
-- Mettre en valeur les sites naturels complémentaires (chutes d'eau, cavernes)
+- Mettre en valeur les sites naturels complémentaires
+
+---
 
 ## Notre Approche
 
@@ -56,65 +50,34 @@ Nous adoptons une approche équilibrée de l'histoire coloniale :
 
 Notre objectif n'est pas d'attribuer des culpabilités, mais de restaurer la vérité historique dans toute sa complexité.
 
+---
+
 ## La Région de Malume
 
-### Géographie
+Malume désigne à la fois une rivière et une zone géographique englobant cinq villages principaux :
 
-Malume désigne à la fois :
-- Une rivière qui traverse la région
-- Une zone géographique englobant cinq villages principaux :
-  - **Ndjock**
-  - **Souhé**
-  - **Mahomy**
-  - **Song-Badjeck**
-  - **Minloh**
+- Ndjock
+- Souhé
+- Mahomy
+- Song-Badjeck
+- Minloh
 
-### Importance Historique
+Cette région fut le théâtre de la transition entre la construction allemande et française du chemin de fer. Les Allemands ont construit jusqu'à Eséka (1901-1916), et les Français ont repris et poursuivi à partir de cette zone (1916-1960).
 
-Cette région fut le théâtre de la transition entre la construction allemande et française du chemin de fer :
-- Les Allemands ont construit jusqu'à Eséka (1901-1916)
-- Les Français ont repris et poursuivi à partir de cette zone (1916-1960)
-
-## Nos Projets
-
-### Court Terme (2025)
-- Documentation photographique complète du patrimoine existant
-- Collecte des témoignages oraux
-- Installation de panneaux de sensibilisation
-
-### Moyen Terme (2026-2027)
-- Sécurisation des ponts prioritaires
-- Création d'un centre d'interprétation
-- Développement de circuits de visite
-
-### Long Terme (2028+)
-- Ouverture du musée ferroviaire
-- Programme éducatif complet
-- Recherche académique approfondie
-
-## L'Équipe
-
-*(À compléter avec les informations sur les membres fondateurs et l'équipe de l'association)*
-
-## Partenaires
-
-Nous recherchons activement des partenaires pour nous aider dans notre mission :
-- Institutions universitaires et de recherche
-- Organisations de préservation du patrimoine
-- Entreprises engagées dans le mécénat culturel
-- ONG et organisations internationales
-- Collectivités locales
+---
 
 ## Nous Rejoindre
 
 Vous partagez notre vision ? Plusieurs façons de nous rejoindre :
 
 - **Adhérer** à l'association comme membre
-- **Faire un don** pour soutenir nos projets
+- **Faire un don** pour soutenir nos projets  
 - **Devenir bénévole** pour nos activités
 - **Partager** notre mission autour de vous
 
-[En savoir plus sur comment nous soutenir](/ecomusee-malume/soutenir/)
+[En savoir plus sur comment nous soutenir]({{ site.baseurl }}/soutenir)
+
+---
 
 ## Contact
 
@@ -122,15 +85,9 @@ Vous partagez notre vision ? Plusieurs façons de nous rejoindre :
 
 📍 Région de Malume, Centre, Cameroun
 
-📱 +237 677 06 68 03  
-📱 +237 694 41 86 95
+📱 {{ site.phone }}
 
-📧 contact@ecomusee-malume.org
-
-**Suivez-nous sur les réseaux sociaux :**
-- Facebook : *(lien à ajouter)*
-- Instagram : *(lien à ajouter)*
-- Twitter/X : *(lien à ajouter)*
+📧 [{{ site.email }}](mailto:{{ site.email }})
 
 ---
 
