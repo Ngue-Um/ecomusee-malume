@@ -8,7 +8,7 @@ title: Accueil
     <h1 class="hero-title">Écomusée de Malume</h1>
     <p class="hero-subtitle">Préservation • Mémoire • Nature</p>
     <p class="hero-description">
-      Une initiative communautaire pour documenter, protéger et transmettre le patromoine environnemental et historique vestiges l'aire écologique de Malume, arrondissement du Centre, Département du Nyong-et-Kelle, Région du Centre, Cameroun
+      Une initiative communautaire pour documenter, protéger et transmettre le patromoine environnemental et historique de l'aire écologique de Malume, arrondissement du Centre, Département du Nyong-et-Kelle, Région du Centre, Cameroun
     </p>
   </div>
 </div>
