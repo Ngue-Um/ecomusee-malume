@@ -250,7 +250,7 @@
         <li><a href="#about"       data-en="About"        data-fr="À propos">About</a></li>
         <li><a href="#history"     data-en="Heritage"     data-fr="Patrimoine">Heritage</a></li>
         <li><a href="#testimonies" data-en="Testimonies"  data-fr="Témoignages">Testimonies</a></li>
-        <li><a href="#share-story" data-en="Share a Story" data-fr="Témoigner">Share a Story</a></li>
+        <li><a href="#share-story" data-en="Share a Story" data-fr="Votre Histoire">Share a Story</a></li>
         <li><a href="#gallery"     data-en="Gallery"      data-fr="Galerie">Gallery</a></li>
         <li><a href="#board"       data-en="Team"         data-fr="Équipe">Team</a></li>
         <li><a href="#involve"     data-en="Get Involved" data-fr="Participer">Get Involved</a></li>
@@ -542,7 +542,7 @@
         data-fr="Les Voix d'une Mémoire Vivante">Voices of Living Memory</h2>
     <p style="max-width:660px;color:var(--mid-grey);margin-bottom:2rem;font-size:1rem"
        data-en="Each recording in our archive captures a living chain of memory — stories transmitted from those who experienced the railway to those who carry their names today."
-       data-fr="Chaque enregistrement de notre archive capte une chaîne vivante de mémoire — des récits transmis de ceux qui ont subi le chantier ferroviaire jusqu'à ceux qui portent aujourd'hui leurs noms.">
+       data-fr="La mémoire du Mittelbahn ne s&rsquo;est pas éteinte avec ceux qui l&rsquo;ont vécu. Elle circule encore, de génération en génération, dans les familles, les noms de lieux, les silences. Notre fonds d&rsquo;archives orales s&rsquo;attache à recueillir ces voix avant qu&rsquo;elles ne se taisent définitivement.">
       Each recording in our archive captures a living chain of memory — stories transmitted from those who experienced the railway to those who carry their names today.
     </p>
     <div class="testimony-wrap fade-in">
@@ -592,30 +592,69 @@
   <div class="container">
     <div class="rail-divider"><div class="rail-divider-dot"></div></div>
     <p class="label"
-       data-en="Share Your Story" data-fr="Partagez Votre Témoignage">Share Your Story</p>
+       data-en="Share Your Story" data-fr="Récits de Mémoire">Share Your Story</p>
     <h2 data-en="Do You Have a Story About Njock?"
-        data-fr="Avez-vous un Souvenir de Njock ?">Do You Have a Story About Njock?</h2>
+        data-fr="Avez-vous une histoire à partager ?">Do You Have a Story About Njock?</h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start;max-width:960px;margin:0 auto"
          class="fade-in">
       <div>
         <p style="color:var(--mid-grey);font-size:1rem;line-height:1.75"
            data-en="Thousands of workers — their names unrecorded, their sacrifices unacknowledged — built the Cameroonian railway under colonial compulsion. Many community members today carry their memory in family stories, place names, and oral traditions. These accounts are irreplaceable."
-           data-fr="Des milliers de travailleurs — sans nom dans les archives, sans reconnaissance officielle — ont construit le chemin de fer camerounais sous la contrainte coloniale. Beaucoup de familles portent encore aujourd'hui leur mémoire à travers des récits, des noms de lieux, des traditions orales. Ces témoignages sont irremplaçables.">
+           data-fr="Des milliers d&rsquo;hommes ont bâti le chemin de fer camerounais sous la contrainte coloniale. Leurs noms n&rsquo;ont jamais figuré dans aucun registre officiel. Pourtant, leurs descendants portent encore leur souvenir &mdash; dans les récits de famille, les noms de lieux, les silences qui en disent long. Ce sont ces voix, modestes et essentielles, que l&rsquo;Écomusée de Malumé s&rsquo;attache à recueillir.">
           Thousands of workers — their names unrecorded, their sacrifices unacknowledged — built the Cameroonian railway under colonial compulsion. Many community members today carry their memory in family stories, place names, and oral traditions. These accounts are irreplaceable.
         </p>
         <p style="color:var(--mid-grey);font-size:1rem;line-height:1.75;margin-top:1rem"
            data-en="The Écomusée de Malumé is collecting testimonies from anyone who has a story to share — about Njock, about the railway, about the communities along the Mittelbahn. We welcome accounts in any language: French, English, Fang, Bulu, Ewondo, or other Cameroonian languages."
-           data-fr="L'Écomusée de Malumé recueille des témoignages auprès de toute personne ayant une histoire à partager — sur Njock, sur le chemin de fer, sur les communautés du Mittelbahn. Nous accueillons les témoignages dans toutes les langues : français, anglais, fang, bulu, ewondo ou toute autre langue camerounaise.">
+           data-fr="Vous avez grandi avec le récit de Njock ? Un parent vous a parlé du chantier, d&rsquo;une déportation, d&rsquo;un retour ? Nous souhaitons vous entendre. Toutes les langues sont les bienvenues &mdash; français, fang, bulu, ewondo, anglais ou toute autre langue du terroir.">
           The Écomusée de Malumé is collecting testimonies from anyone who has a story to share — about Njock, about the railway, about the communities along the Mittelbahn. We welcome accounts in any language: French, English, Fang, Bulu, Ewondo, or other Cameroonian languages.
         </p>
         <p style="color:var(--mid-grey);font-size:.93rem;margin-top:1.2rem;font-style:italic"
            data-en="Not sure what kind of story counts? Watch Prof. Nzameyo's testimony (right) — a family memory kept alive across three generations."
-           data-fr="Vous ne savez pas si votre récit est pertinent ? Regardez le témoignage du Prof. Nzameyo (ci-contre) — un souvenir familial transmis sur trois générations.">
+           data-fr="Pour vous faire une idée de ce que nous recueillons, regardez le témoignage du Prof. Nzameyo (ci-contre) &mdash; un souvenir de famille traversant trois générations.">
           Not sure what kind of story counts? Watch Prof. Nzameyo's testimony (right) — a family memory kept alive across three generations.
         </p>
-        <a href="#contact" class="btn btn-forest" style="margin-top:1.4rem;display:inline-flex"
-           data-en="Send Us Your Testimony" data-fr="Nous Envoyer Votre Témoignage">Send Us Your Testimony</a>
+
+        <!-- Testimony form -->
+        <form style="margin-top:1.6rem;display:flex;flex-direction:column;gap:.9rem"
+              onsubmit="handleTestimonySubmit(event)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+            <div class="form-group" style="margin:0">
+              <label for="t-name" data-en="Your name" data-fr="Votre nom">Your name</label>
+              <input type="text" id="t-name" name="t-name" required style="width:100%" />
+            </div>
+            <div class="form-group" style="margin:0">
+              <label for="t-contact" data-en="Email or phone" data-fr="E-mail ou téléphone">Email or phone</label>
+              <input type="text" id="t-contact" name="t-contact" style="width:100%" />
+            </div>
+          </div>
+          <div class="form-group" style="margin:0">
+            <label for="t-lang" data-en="Language of your testimony" data-fr="Langue de votre témoignage">Language of your testimony</label>
+            <select id="t-lang" name="t-lang" style="width:100%">
+              <option data-en="French" data-fr="Français">French</option>
+              <option data-en="Fang" data-fr="Fang">Fang</option>
+              <option data-en="Bulu" data-fr="Bulu">Bulu</option>
+              <option data-en="Ewondo" data-fr="Ewondo">Ewondo</option>
+              <option data-en="English" data-fr="Anglais">English</option>
+              <option data-en="Other Cameroonian language" data-fr="Autre langue camerounaise">Other Cameroonian language</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin:0">
+            <label for="t-story" data-en="Your story (as much or as little as you like)"
+                   data-fr="Votre récit (aussi court ou long que vous le souhaitez)">Your story (as much or as little as you like)</label>
+            <textarea id="t-story" name="t-story" rows="5" style="width:100%;resize:vertical"></textarea>
+          </div>
+          <button type="submit" class="btn btn-forest" style="justify-content:center"
+                  data-en="Send Your Story" data-fr="Envoyer Votre Récit">Send Your Story</button>
+          <p style="font-size:.8rem;color:var(--mid-grey)"
+             data-en="Or reach us directly on WhatsApp: +237 677 06 68 03"
+             data-fr="Ou contactez-nous directement sur WhatsApp : +237 677 06 68 03">
+            Or reach us directly on WhatsApp:
+            <a href="https://wa.me/237677066803" target="_blank"
+               style="color:var(--forest);font-weight:600">+237 677 06 68 03</a>
+          </p>
+        </form>
       </div>
+
       <div>
         <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:8px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.18)">
           <iframe src="https://drive.google.com/file/d/1ZE_MOH39gKfagSvlT6qM_e7KWnKUxsVg/preview"
@@ -627,6 +666,34 @@
            data-en="Prof. René Aristide Rodrigue Nzameyo · Head of Philosophy, ENS Yaoundé · Recorded February 2026"
            data-fr="Prof. René Aristide Rodrigue Nzameyo · Chef du département de philosophie, ENS de Yaoundé · Enregistré en février 2026">
           Prof. René Aristide Rodrigue Nzameyo · Head of Philosophy, ENS Yaoundé · Recorded February 2026
+        </p>
+        <!-- Social share -->
+        <div style="margin-top:1rem;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+          <span style="font-size:.78rem;color:var(--mid-grey);font-weight:600;text-transform:uppercase;letter-spacing:.07em"
+                data-en="Share:" data-fr="Partager :">Share:</span>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fngue-um.github.io%2Fecomusee-malume%2F"
+             target="_blank" rel="noopener"
+             title="Share on Facebook"
+             style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:#1877f2;color:#fff;font-size:.82rem;font-weight:700;text-decoration:none">f</a>
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fngue-um.github.io%2Fecomusee-malume%2F&text=Voices+of+the+Cameroonian+railway+%E2%80%94+%C3%89comus%C3%A9e+de+Malum%C3%A9"
+             target="_blank" rel="noopener"
+             title="Share on X"
+             style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:#000;color:#fff;font-size:.82rem;font-weight:700;text-decoration:none">𝕏</a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener"
+             title="Instagram"
+             style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285aeb 90%);color:#fff;font-size:.9rem;text-decoration:none">📷</a>
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener"
+             title="YouTube"
+             style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:#ff0000;color:#fff;font-size:.72rem;font-weight:700;text-decoration:none">▶</a>
+          <a href="https://wa.me/?text=Voices+of+the+Cameroonian+railway+%E2%80%94+%C3%89comus%C3%A9e+de+Malum%C3%A9+https%3A%2F%2Fngue-um.github.io%2Fecomusee-malume%2F"
+             target="_blank" rel="noopener"
+             title="Share on WhatsApp"
+             style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:#25d366;color:#fff;font-size:.8rem;font-weight:700;text-decoration:none">W</a>
+        </div>
+        <p style="font-size:.75rem;color:var(--mid-grey);margin-top:.55rem;font-style:italic"
+           data-en="Help us reach those who carry this history — share the video with your network."
+           data-fr="Aidez-nous à atteindre ceux qui portent cette histoire — partagez la vidéo avec votre réseau.">
+          Help us reach those who carry this history — share the video with your network.
         </p>
       </div>
     </div>
@@ -829,6 +896,14 @@
           </div>
         </div>
         <div class="contact-detail">
+          <div class="contact-detail-icon">💬</div>
+          <div class="contact-detail-text">
+            <strong>WhatsApp</strong>
+            <a href="https://wa.me/237677066803" target="_blank"
+               style="color:var(--rail-gold)">+237 677 06 68 03</a>
+          </div>
+        </div>
+        <div class="contact-detail">
           <div class="contact-detail-icon">📮</div>
           <div class="contact-detail-text">
             <strong data-en="Postal address" data-fr="Adresse postale">Postal address</strong>
@@ -927,7 +1002,7 @@
       <li><a href="#about"       data-en="About"        data-fr="À propos">About</a></li>
       <li><a href="#history"     data-en="Heritage"     data-fr="Patrimoine">Heritage</a></li>
       <li><a href="#testimonies" data-en="Testimonies"  data-fr="Témoignages">Testimonies</a></li>
-      <li><a href="#share-story" data-en="Share a Story" data-fr="Témoigner">Share a Story</a></li>
+      <li><a href="#share-story" data-en="Share a Story" data-fr="Votre Histoire">Share a Story</a></li>
       <li><a href="#gallery"     data-en="Gallery"      data-fr="Galerie">Gallery</a></li>
       <li><a href="#board"       data-en="Team"         data-fr="Équipe">Team</a></li>
       <li><a href="#involve"     data-en="Get Involved" data-fr="Participer">Get Involved</a></li>
@@ -1102,6 +1177,18 @@ function handleFormSubmit(e) {
   const body = encodeURIComponent(
     `Name: ${d.get('fname')} ${d.get('lname')}\nEmail: ${d.get('email')}\n` +
     `Institution: ${d.get('affil')}\nInterest: ${d.get('interest')}\n\n${d.get('message')}`
+  );
+  window.location.href = `mailto:association@ecomuseemalume.org?subject=${sub}&body=${body}`;
+}
+
+/* ─ Testimony form ─ */
+function handleTestimonySubmit(e) {
+  e.preventDefault();
+  const d = new FormData(e.target);
+  const sub = encodeURIComponent('Témoignage — Écomusée de Malumé');
+  const body = encodeURIComponent(
+    `Nom / Name: ${d.get('t-name')}\nContact: ${d.get('t-contact')}\n` +
+    `Langue / Language: ${d.get('t-lang')}\n\n${d.get('t-story')}`
   );
   window.location.href = `mailto:association@ecomuseemalume.org?subject=${sub}&body=${body}`;
 }
