@@ -1,141 +1,170 @@
 # How to Update the Écomusée de Malumé Website on GitHub
 
 **Repository:** https://github.com/Ngue-Um/ecomusee-malume  
-**Live website URL:** https://ngue-um.github.io/ecomusee-malume/
+**GitHub Pages URL:** Once configured, your site will be at `https://ngue-um.github.io/ecomusee-malume/`
 
 ---
 
-## What goes into the repository
+## What's in this folder
 
-Use the contents of the **`website-clean`** folder — it contains only what the website needs:
+After the rebrand, the website folder contains:
 
 ```
-website-clean/
-├── index.html                  ← The website (single page, bilingual EN/FR)
-├── GITHUB-UPDATE-GUIDE.md      ← This guide
-└── assets/
-    └── images/
-        ├── logo.png
-        ├── hero-bg.jpg
-        ├── about-bridge.jpg
-        ├── president.jpg
-        ├── colonial/           ← 3 archive photographs
-        └── gallery/            ← 25 web-optimised photographs
+Ecomusee-de-Malume-Website/
+├── index.html              ← The main website (single page)
+├── assets/
+│   └── images/
+│       ├── logo.png        ← Project logo
+│       ├── hero-bg.jpg     ← Hero section background
+│       ├── about-bridge.jpg
+│       ├── njock-landscape.jpg
+│       ├── gallery/        ← 8 curated gallery images
+│       ├── ngoakntet/      ← Field photos
+│       ├── photos/         ← Archive photos
+│       ├── njock/
+│       └── maps/
+└── GITHUB-UPDATE-GUIDE.md  ← This file
 ```
-
-Total size: ~17 MB. Everything else (raw photos, videos, PDF documents) should stay on your computer only — do not put them in the GitHub repository.
 
 ---
 
 ## Step 1 — Install Git (if not already installed)
 
-**Mac:** Open Terminal and type `git --version`. If Git is not installed, macOS will prompt you to install it automatically.  
-**Windows:** Download from https://git-scm.com/download/win and run the installer.
+**Mac:** Git is pre-installed. Open Terminal and type `git --version` to confirm.  
+**Windows:** Download from https://git-scm.com/download/win  
+**Linux:** `sudo apt install git`
 
 ---
 
-## Step 2 — First-time setup: clone the repository
+## Step 2 — Clone the repository (first time only)
 
-Open **Terminal** (Mac) or **Git Bash** (Windows) and run:
+Open **Terminal** (Mac/Linux) or **Git Bash** (Windows) and run:
 
 ```bash
 git clone https://github.com/Ngue-Um/ecomusee-malume.git
 cd ecomusee-malume
 ```
 
-This downloads the repository to a folder called `ecomusee-malume` on your computer. You only need to do this once.
+This creates a local copy of the repo on your computer.
 
 ---
 
-## Step 3 — Copy the website files into the repo folder
+## Step 3 — Copy the new website files into the repo
 
-In Finder (Mac) or File Explorer (Windows):
+Copy **everything** from the `Ecomusee-de-Malume-Website` folder into the cloned repo folder:
 
-1. Open the `ecomusee-malume` folder you just cloned
-2. Delete everything inside it **except the hidden `.git` folder** (you won't see it by default — it is invisible and must not be touched)
-3. Copy the contents of `website-clean` into the `ecomusee-malume` folder: `index.html`, `assets/`, and `GITHUB-UPDATE-GUIDE.md`
+```bash
+# On Mac/Linux — adjust the source path to where your folder is:
+cp -r /path/to/Ecomusee-de-Malume-Website/index.html .
+cp -r /path/to/Ecomusee-de-Malume-Website/assets ./assets
+```
+
+Or simply drag-and-drop the files using Finder/Explorer into the `ecomusee-malume` folder.
+
+> **Important:** The `assets/images/` folder contains the photos. These are large files.  
+> If you want to keep the repo small, consider using [Git LFS](https://git-lfs.com/) for images (optional, see below).
 
 ---
 
-## Step 4 — Commit and push
+## Step 4 — Stage and commit the changes
 
 In Terminal, from inside the `ecomusee-malume` folder:
 
 ```bash
-git add .
-git commit -m "Update website"
-git push origin main
-```
+# See what changed
+git status
 
-If Terminal asks for your GitHub credentials, enter your GitHub **username** and a **Personal Access Token** as the password (GitHub no longer accepts your account password here — see Step 5 if you need to create one).
+# Stage all new/changed files
+git add .
+
+# Commit with a clear message
+git commit -m "Rebrand: new website design with oral testimonies, gallery, and stakeholder content"
+```
 
 ---
 
-## Step 5 — Create a Personal Access Token (if needed)
+## Step 5 — Push to GitHub
 
-1. Go to https://github.com and sign in
-2. Click your profile photo in the top-right corner → **Settings**
+```bash
+git push origin main
+```
 
-   > Settings is reached via your **profile photo menu**, not from inside the repository.
-
-3. In the left sidebar that appears, scroll all the way down and click **Developer settings**
-4. Click **Personal access tokens** → **Tokens (classic)**
-5. Click **Generate new token (classic)**
-6. Give it a name (e.g. "ecomusee push"), set expiration to 90 days, tick the **repo** checkbox
-7. Click **Generate token** and copy it immediately — you will not see it again
-8. Use this token as your password when Terminal asks during `git push`
+If prompted, enter your GitHub username and a **Personal Access Token** (not your password).  
+To create a token: GitHub → Settings → Developer Settings → Personal Access Tokens → Tokens (classic) → New token. Select `repo` scope.
 
 ---
 
 ## Step 6 — Enable GitHub Pages (first time only)
 
-This makes the website publicly accessible at `https://ngue-um.github.io/ecomusee-malume/`.
+1. Go to https://github.com/Ngue-Um/ecomusee-malume
+2. Click **Settings** → **Pages** (in the left sidebar)
+3. Under **Source**, select: `Deploy from a branch`
+4. Branch: `main` · Folder: `/ (root)`
+5. Click **Save**
 
-1. Go to https://github.com/Ngue-Um/ecomusee-malume in your browser
-2. Look at the row of tabs just below the repository name: **Code · Issues · Pull requests · Actions · Projects · Wiki · Security · Insights · Settings**
-3. Click the **Settings** tab (last one on the right)
-4. In the left sidebar of the Settings page, scroll down and click **Pages**
-5. Under **Build and deployment**, set:
-   - Source: **Deploy from a branch**
-   - Branch: **main**
-   - Folder: **/ (root)**
-6. Click **Save**
-
-Your site will be live within 1–3 minutes. You can check its status under the **Actions** tab.
+Your website will be live at:  
+**https://ngue-um.github.io/ecomusee-malume/**  
+(usually takes 1–2 minutes to deploy)
 
 ---
 
 ## Making future updates
 
-### To update text content
-1. Open `index.html` in any text editor (TextEdit on Mac, Notepad on Windows, or VS Code)
-2. Use Cmd+F (Mac) or Ctrl+F (Windows) to search for the text you want to change
-3. Edit, save, then run Steps 4 above again
+### To update text content:
+1. Open `index.html` in a text editor (TextEdit, VS Code, Notepad++)
+2. Find the section you want to change (use Ctrl+F / Cmd+F to search)
+3. Edit the text
+4. Save, then repeat Steps 4–5 above
 
-### To add a team member's photo
-1. Name the photo file clearly (e.g. `bikoe-julienne.jpg`) and copy it into `assets/images/`
-2. In `index.html`, find the relevant board card and add:
-   ```html
-   <img src="assets/images/bikoe-julienne.jpg" alt="Mme Julienne Bikoe" class="president-photo" />
-   ```
-3. Save, commit, push
-
-### To add a new gallery photo
-1. Resize the photo to no wider than 1600px and save as a `.jpg` (keep it under 1 MB)
-2. Copy it into `assets/images/gallery/` with a clear name (e.g. `gallery-20.jpg`)
-3. In `index.html`, find the `GALLERY` array (search for `const GALLERY`) and add a new entry:
+### To add new photos to the gallery:
+1. Copy new `.jpg` files into `assets/images/gallery/`
+2. In `index.html`, find the `actualImages` array (around line 370)
+3. Add a new entry:
    ```javascript
-   { src:'assets/images/gallery/gallery-20.jpg',
-     en:'Description in English',
-     fr:'Description en français' },
+   { path: 'assets/images/gallery/your-photo.jpg', alt: 'Description of photo' },
    ```
 4. Save, commit, push
 
-### To add a new video testimony
-1. Upload the video to Google Drive and set sharing to "Anyone with the link → Viewer"
-2. Copy the file ID from the URL: `drive.google.com/file/d/`**FILE_ID**`/view`
-3. In `index.html`, find `<div class="testimony-wrap">` and duplicate the `<div class="video-card">` block, replacing the file ID in the `src` attribute
-4. Save, commit, push
+### To add a new video testimony:
+1. Upload the video to Google Drive
+2. Share it (Anyone with the link → Viewer)
+3. Copy the file ID from the URL: `drive.google.com/file/d/FILE_ID_HERE/view`
+4. In `index.html`, find the `<div class="testimony-grid">` section
+5. Add a new `<div class="video-card">` block:
+   ```html
+   <div class="video-card">
+     <iframe
+       src="https://drive.google.com/file/d/YOUR_FILE_ID/preview"
+       allow="autoplay" allowfullscreen
+       title="Testimony description"
+     ></iframe>
+     <div class="video-card-label">
+       <strong>Testimony — Location</strong>
+       <span>Interviewee name · Date</span>
+     </div>
+   </div>
+   ```
+6. Save, commit, push
+
+---
+
+## Optional: Using Git LFS for large image files
+
+If the image files make the repo too large (GitHub's soft limit is ~1 GB):
+
+```bash
+# Install Git LFS
+git lfs install
+
+# Track image formats
+git lfs track "*.jpg" "*.JPG" "*.png" "*.MP4"
+
+# Add .gitattributes
+git add .gitattributes
+git commit -m "Add Git LFS tracking for media files"
+
+git push origin main
+```
 
 ---
 
@@ -143,9 +172,17 @@ Your site will be live within 1–3 minutes. You can check its status under the 
 
 | Problem | Solution |
 |---|---|
-| `git push` asks for a password | Use your Personal Access Token, not your GitHub account password (see Step 5) |
-| Cannot find the Settings tab | Make sure you are on the repository page at github.com/Ngue-Um/ecomusee-malume, not on your profile page |
-| Pages option not visible in Settings | Scroll down in the left sidebar — Pages is below the General and Code sections |
-| Site not updating after push | Wait 2–3 minutes; check the **Actions** tab for build status |
-| Images not showing on the live site | File names are case-sensitive on GitHub Pages — `Gallery-01.jpg` and `gallery-01.jpg` are different files |
-| `git push` is very slow | The repo may contain large files; make sure only `website-clean` contents are being pushed |
+| `git push` asks for password | Use a Personal Access Token, not your GitHub password |
+| Images not showing on live site | Check that paths in HTML match exactly (case-sensitive on GitHub Pages) |
+| Site not updating after push | Wait 2–3 minutes; GitHub Pages takes time to rebuild |
+| Large files rejected | Use Git LFS (see above) or host images on Google Drive / Cloudinary |
+| Merge conflict | Run `git pull origin main` first, then re-push |
+
+---
+
+## Contact for technical help
+
+If you run into issues, the full website source is maintained at:  
+https://github.com/Ngue-Um/ecomusee-malume
+
+For questions about the website build, refer back to this guide or contact the project team.
