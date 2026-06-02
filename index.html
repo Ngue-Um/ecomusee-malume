@@ -211,6 +211,15 @@
     .form-group textarea { resize:vertical; min-height:96px; }
     .form-group select option { background:var(--forest); }
     .form-note { font-size:.75rem; color:rgba(247,243,236,.35); }
+    /* Testimony form — light background variant */
+    .testimony-form .form-group label { color:var(--charcoal); }
+    .testimony-form .form-group input,
+    .testimony-form .form-group select,
+    .testimony-form .form-group textarea { background:#fff; border:1px solid rgba(30,58,47,.2); color:var(--charcoal); }
+    .testimony-form .form-group input:focus,
+    .testimony-form .form-group select:focus,
+    .testimony-form .form-group textarea:focus { border-color:var(--forest); }
+    .testimony-form .form-group select option { background:#fff; color:var(--charcoal); }
 
     /* ── FOOTER ── */
     footer { background:#0c1e14; color:rgba(247,243,236,.42); padding-block:2.2rem; text-align:center; }
@@ -615,7 +624,7 @@
         </p>
 
         <!-- Testimony form -->
-        <form style="margin-top:1.6rem;display:flex;flex-direction:column;gap:.9rem"
+        <form class="testimony-form" style="margin-top:1.6rem;display:flex;flex-direction:column;gap:.9rem"
               onsubmit="handleTestimonySubmit(event)">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
             <div class="form-group" style="margin:0">
@@ -631,11 +640,18 @@
             <label for="t-lang" data-en="Language of your testimony" data-fr="Langue de votre témoignage">Language of your testimony</label>
             <select id="t-lang" name="t-lang" style="width:100%">
               <option data-en="French" data-fr="Français">French</option>
-              <option data-en="Fang" data-fr="Fang">Fang</option>
+              <option data-en="Basaa" data-fr="Basaa">Basaa</option>
               <option data-en="Bulu" data-fr="Bulu">Bulu</option>
+              <option data-en="Fang" data-fr="Fang">Fang</option>
               <option data-en="Ewondo" data-fr="Ewondo">Ewondo</option>
+              <option data-en="Duala" data-fr="Duala">Duala</option>
+              <option data-en="Batanga" data-fr="Batanga">Batanga</option>
+              <option data-en="Ngumba" data-fr="Ngumba">Ngumba</option>
+              <option data-en="Mabea" data-fr="Mabea">Mabea</option>
+              <option data-en="Bafia" data-fr="Bafia">Bafia</option>
+              <option data-en="Bakoko" data-fr="Bakoko">Bakoko</option>
               <option data-en="English" data-fr="Anglais">English</option>
-              <option data-en="Other Cameroonian language" data-fr="Autre langue camerounaise">Other Cameroonian language</option>
+              <option data-en="Other language" data-fr="Autre langue">Other language</option>
             </select>
           </div>
           <div class="form-group" style="margin:0">
