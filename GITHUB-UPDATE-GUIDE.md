@@ -107,35 +107,77 @@ Your site will be live within 1–3 minutes. You can check its status under the 
 
 ## Making future updates
 
+### The golden rule
+Every update follows the same three-step pattern:
+1. **Change the file(s)** — copy images into the right folder and/or edit `index.html`
+2. **Commit** — tell Git what changed and give it a short label
+3. **Push** — send the commit to GitHub; the site updates within 1–3 minutes
+
+---
+
 ### To update text content
 1. Open `index.html` in any text editor (TextEdit on Mac, Notepad on Windows, or VS Code)
-2. Use Cmd+F (Mac) or Ctrl+F (Windows) to search for the text you want to change
-3. Edit, save, then run Steps 4 above again
-
-### To add a team member's photo
-1. Name the photo file clearly (e.g. `bikoe-julienne.jpg`) and copy it into `assets/images/`
-2. In `index.html`, find the relevant board card and add:
-   ```html
-   <img src="assets/images/bikoe-julienne.jpg" alt="Mme Julienne Bikoe" class="president-photo" />
+2. Use **Cmd+F** (Mac) or **Ctrl+F** (Windows) to search for the text you want to change
+3. Edit and save
+4. In Terminal, from inside `ecomusee-malume/`:
+   ```bash
+   git add index.html
+   git commit -m "Update text"
+   git push origin main
    ```
-3. Save, commit, push
+
+---
+
+### To add or replace a board member's photo
+1. Crop and save the photo as a `.jpg` or `.jpeg`, named with the person's name in lowercase with hyphens (e.g. `bikoe-julienne.jpg`). Keep it under 500 KB.
+2. Copy it into `ecomusee-malume/assets/images/`
+3. Open `index.html` and search for the person's name. Add this line **inside their board card**, just above the `<div class="board-role">` line:
+   ```html
+   <img src="assets/images/bikoe-julienne.jpg" alt="Mme Julienne Bikoe" class="president-photo"
+        onerror="this.style.display='none'" />
+   ```
+   If they already have a photo, just replace the old file with the new one — no HTML change needed.
+4. Save, then in Terminal:
+   ```bash
+   git add assets/images/bikoe-julienne.jpg index.html
+   git commit -m "Add photo: Bikoe Julienne"
+   git push origin main
+   ```
+
+> **Important:** file names are case-sensitive on GitHub Pages. Use lowercase only. `Bikoe.jpg` and `bikoe.jpg` are treated as different files.
+
+---
 
 ### To add a new gallery photo
-1. Resize the photo to no wider than 1600px and save as a `.jpg` (keep it under 1 MB)
-2. Copy it into `assets/images/gallery/` with a clear name (e.g. `gallery-20.jpg`)
-3. In `index.html`, find the `GALLERY` array (search for `const GALLERY`) and add a new entry:
+1. Resize the photo to no wider than **1600px** and save as a `.jpg`, under 1 MB. Use a clear lowercase name (e.g. `chutes-libam-02.jpg`).
+2. Copy it into `ecomusee-malume/assets/images/gallery/`
+3. Open `index.html`, search for `const GALLERY`, scroll to the end of the list (just before `];`) and add:
    ```javascript
-   { src:'assets/images/gallery/gallery-20.jpg',
-     en:'Description in English',
-     fr:'Description en français' },
+   { src:'assets/images/gallery/chutes-libam-02.jpg',
+     en:'Caption in English',
+     fr:'Légende en français' },
    ```
-4. Save, commit, push
+   Add `wide:true` after the `fr:` value for a landscape photo you want displayed across two columns.
+4. Save, then in Terminal:
+   ```bash
+   git add assets/images/gallery/chutes-libam-02.jpg index.html
+   git commit -m "Add gallery photo: chutes-libam-02"
+   git push origin main
+   ```
+
+---
 
 ### To add a new video testimony
-1. Upload the video to Google Drive and set sharing to "Anyone with the link → Viewer"
+1. Upload the video to Google Drive and set sharing to **"Anyone with the link → Viewer"**
 2. Copy the file ID from the URL: `drive.google.com/file/d/`**FILE_ID**`/view`
-3. In `index.html`, find `<div class="testimony-wrap">` and duplicate the `<div class="video-card">` block, replacing the file ID in the `src` attribute
-4. Save, commit, push
+3. Open `index.html`, search for `testimony-wrap`, and duplicate the `<div class="video-card">` block, replacing the file ID in the `src` attribute with your new one
+4. Update the caption labels (`data-en` and `data-fr`) inside that block
+5. Save, then in Terminal:
+   ```bash
+   git add index.html
+   git commit -m "Add video testimony: [name/location]"
+   git push origin main
+   ```
 
 ---
 
