@@ -10,3 +10,9 @@ group :jekyll_plugins do
 end
 
 gem "webrick"
+
+# Needed on Ruby 3.4+ (Cloudflare Pages): no longer bundled by default
+gem "csv"
+gem "base64"
+gem "bigdecimal"
+gem "logger"
