@@ -181,6 +181,19 @@
     @media(max-width:860px){ .board-card--president{grid-column:span 2} }
     @media(max-width:500px){ .board-card--president{grid-column:span 1; flex-direction:column; align-items:flex-start; gap:1rem} }
     .board-card--president .board-name { font-size:1.25rem; }
+    .research-feature { display:grid; grid-template-columns:1.1fr 1fr; gap:2.5rem; align-items:start; margin-top:2rem; }
+    @media(max-width:860px){ .research-feature{grid-template-columns:1fr; gap:1.5rem} }
+    .research-figure { margin:0; }
+    .research-figure img { width:100%; height:auto; border-radius:8px; box-shadow:0 6px 24px rgba(0,0,0,.12); display:block; }
+    .research-figure figcaption { font-size:.82rem; color:var(--mid-grey); margin-top:.6rem; line-height:1.5; }
+    .research-title { font-size:1.3rem; line-height:1.35; color:var(--forest); margin:.6rem 0 1rem; }
+    .research-meta { list-style:none; padding:0; margin:0 0 1.2rem; font-size:.9rem; color:var(--dark-grey); line-height:1.7; border-left:3px solid var(--rail-gold); padding-left:1rem; }
+    .research-meta strong { color:var(--forest); }
+    .research-abstract { font-size:.95rem; color:var(--dark-grey); line-height:1.7; margin-bottom:1rem; }
+    .research-keywords { display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:1.4rem; }
+    .research-keywords span { font-size:.75rem; padding:3px 10px; border-radius:100px; background:rgba(30,58,47,.08); color:var(--forest); }
+    .board-link { display:inline-block; margin-top:.5rem; font-size:.8rem; color:var(--rail-gold); text-decoration:underline; text-underline-offset:3px; }
+    .board-link:hover { color:var(--cream); }
     .president-photo { width:130px; height:130px; border-radius:50%; object-fit:cover; object-position:center 20%; flex-shrink:0; border:3px solid rgba(212,160,23,.4); }
 
     /* ── INVOLVE ── */
@@ -262,6 +275,7 @@
         <li><a href="#share-story" data-en="Share a Story" data-fr="Votre Histoire">Share a Story</a></li>
         <li><a href="#gallery"     data-en="Gallery"      data-fr="Galerie">Gallery</a></li>
         <li><a href="#board"       data-en="Team"         data-fr="Équipe">Team</a></li>
+        <li><a href="#research"    data-en="Research"     data-fr="Recherche">Research</a></li>
         <li><a href="#involve"     data-en="Get Involved" data-fr="Participer">Get Involved</a></li>
         <li><a href="#contact" class="nav-cta" data-en="Contact" data-fr="Contact">Contact</a></li>
       </ul>
@@ -806,12 +820,68 @@
              onerror="this.style.display='none'" />
         <div class="board-role" data-en="Advisor" data-fr="Conseiller">Advisor</div>
         <div class="board-name">M. Blaise Mathieu BANOUM MANGUELE</div>
+        <a href="#research" class="board-link" data-en="Master's thesis on Malumé →" data-fr="Mémoire de Master sur Malumé →">Master's thesis on Malumé →</a>
       </div>
       <div class="board-card fade-in">
         <img src="assets/images/yomba.jpeg" alt="M. Calvin YOMBA" class="president-photo"
              onerror="this.style.display='none'" />
         <div class="board-role" data-en="Censor" data-fr="Censeur">Censor</div>
         <div class="board-name">M. Calvin YOMBA</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ RESEARCH & DEVELOPMENT ═══════════════ -->
+<section id="research" class="section">
+  <div class="container">
+    <div class="rail-divider"><div class="rail-divider-dot"></div></div>
+    <p class="label" data-en="Research &amp; Development" data-fr="Recherche &amp; Développement">Research &amp; Development</p>
+    <h2 data-en="Academic Research on Malumé"
+        data-fr="Travaux Universitaires sur Malumé">Academic Research on Malumé</h2>
+    <p style="max-width:660px;color:var(--mid-grey);margin-bottom:0;font-size:1rem"
+       data-en="The Écomusée supports university research on the railway heritage, history, and communities of Malumé. Here we share completed work produced in connection with the project."
+       data-fr="L'Écomusée accompagne les recherches universitaires sur le patrimoine ferroviaire, l'histoire et les communautés de Malumé. Nous présentons ici les travaux achevés en lien avec le projet.">
+      The Écomusée supports university research on the railway heritage, history, and communities of Malumé. Here we share completed work produced in connection with the project.
+    </p>
+
+    <div class="research-feature fade-in">
+      <figure class="research-figure">
+        <img src="assets/images/soutenance-banoum.jpg" width="1080" height="810" loading="lazy"
+             alt="Blaise Mathieu Banoum Manguelle holding his Master's certificate, standing with the jury at the University of Yaoundé I"
+             onerror="this.style.display='none'" />
+        <figcaption data-en="Blaise Mathieu Banoum Manguelle (second from right) with the jury after the public defence of his Master's thesis, University of Yaoundé I."
+                    data-fr="Blaise Mathieu Banoum Manguelle (deuxième à partir de la droite) entouré du jury après la soutenance publique de son mémoire de Master, Université de Yaoundé I.">
+          Blaise Mathieu Banoum Manguelle (second from right) with the jury after the public defence of his Master's thesis, University of Yaoundé I.
+        </figcaption>
+      </figure>
+
+      <div>
+        <span class="badge badge--gold" data-en="Master's thesis · Defended 2026" data-fr="Mémoire de Master · Soutenu en 2026">Master's thesis · Defended 2026</span>
+        <h3 class="research-title" lang="fr">Patrimoine ferroviaire de Malume (département du Nyong-et-Kellé, arrondissement d'Eséka) : état des lieux et perspectives muséologiques</h3>
+        <ul class="research-meta">
+          <li><strong data-en="Author:" data-fr="Auteur :">Author:</strong> Blaise Mathieu BANOUM MANGUELLE
+            <span data-en="— Advisor, Executive Board of the Écomusée" data-fr="— Conseiller, Bureau exécutif de l'Écomusée">— Advisor, Executive Board of the Écomusée</span></li>
+          <li><strong data-en="Supervisor:" data-fr="Directeur :">Supervisor:</strong> Dr François NGOUOH</li>
+          <li><strong data-en="Degree:" data-fr="Diplôme :">Degree:</strong>
+            <span data-en="Master in Cameroonian Languages and Cultures, Cultural Heritage Management option" data-fr="Master en Langues et Cultures camerounaises, option Gestion du Patrimoine Culturel">Master in Cameroonian Languages and Cultures, Cultural Heritage Management option</span></li>
+          <li><strong data-en="Institution:" data-fr="Institution :">Institution:</strong>
+            <span data-en="Department of African Languages and Linguistics, Faculty of Arts, Letters and Social Sciences, University of Yaoundé I — academic year 2025–2026" data-fr="Département de Langues africaines et Linguistique, Faculté des Arts, Lettres et Sciences humaines, Université de Yaoundé I — année académique 2025-2026">Department of African Languages and Linguistics, Faculty of Arts, Letters and Social Sciences, University of Yaoundé I — academic year 2025–2026</span></li>
+        </ul>
+        <p class="research-abstract"
+           data-en="Malumé is one of the key sites in the history of the railway in Cameroon, yet its railway bridges, tunnels, and other remains are badly deteriorating from neglect, weather, and human activity. Drawing on semi-structured interviews with local residents, direct observation, and documentary research, this thesis takes stock of the site's industrial heritage and traces the colonial origins of the line. It argues that the site can be rehabilitated and opened to visitors, and it proposes museological approaches adapted to local realities: selective restoration, securing the site, involving communities and partners, and creating an ecomuseum that keeps the remains in place alongside the memory of the people who lived this history."
+           data-fr="Malumé est l'un des hauts lieux de l'histoire du chemin de fer au Cameroun, mais ses ponts, tunnels et autres vestiges ferroviaires se dégradent sous l'effet de l'abandon, des intempéries et de l'action humaine. S'appuyant sur des entretiens semi-directifs avec les populations, l'observation directe et la recherche documentaire, ce mémoire dresse l'état des lieux du patrimoine industriel du site et retrace la genèse coloniale de la ligne. Il montre que le site peut être réhabilité et ouvert au public, et propose des perspectives muséologiques adaptées aux réalités locales : restauration sélective, sécurisation du site, implication des communautés et des partenaires, et création d'un écomusée qui conserve les vestiges in situ tout en valorisant la mémoire des populations.">
+          Malumé is one of the key sites in the history of the railway in Cameroon, yet its railway bridges, tunnels, and other remains are badly deteriorating from neglect, weather, and human activity. Drawing on semi-structured interviews with local residents, direct observation, and documentary research, this thesis takes stock of the site's industrial heritage and traces the colonial origins of the line. It argues that the site can be rehabilitated and opened to visitors, and it proposes museological approaches adapted to local realities: selective restoration, securing the site, involving communities and partners, and creating an ecomuseum that keeps the remains in place alongside the memory of the people who lived this history.
+        </p>
+        <div class="research-keywords">
+          <span data-en="Industrial heritage" data-fr="Patrimoine industriel">Industrial heritage</span>
+          <span data-en="Railway heritage" data-fr="Patrimoine ferroviaire">Railway heritage</span>
+          <span data-en="Museology" data-fr="Muséologie">Museology</span>
+          <span data-en="Rehabilitation" data-fr="Réhabilitation">Rehabilitation</span>
+          <span data-en="Heritage tourism" data-fr="Tourisme patrimonial">Heritage tourism</span>
+        </div>
+        <a href="assets/docs/memoire-master-banoum-manguelle-2026.pdf" class="btn btn-forest" target="_blank" rel="noopener"
+           data-en="Read the thesis (PDF, French, 160 pp.)" data-fr="Lire le mémoire (PDF, 160 p.)">Read the thesis (PDF, French, 160 pp.)</a>
       </div>
     </div>
   </div>
@@ -1043,6 +1113,7 @@
       <li><a href="#share-story" data-en="Share a Story" data-fr="Votre Histoire">Share a Story</a></li>
       <li><a href="#gallery"     data-en="Gallery"      data-fr="Galerie">Gallery</a></li>
       <li><a href="#board"       data-en="Team"         data-fr="Équipe">Team</a></li>
+      <li><a href="#research"    data-en="Research"     data-fr="Recherche">Research</a></li>
       <li><a href="#involve"     data-en="Get Involved" data-fr="Participer">Get Involved</a></li>
       <li><a href="#contact"     data-en="Contact"      data-fr="Contact">Contact</a></li>
       <li><a href="https://github.com/Ngue-Um/ecomusee-malume" target="_blank">GitHub</a></li>
