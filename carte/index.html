@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Carte interactive · Écomusée de Malume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Young+Serif&display=swap">
+<style>
+:root{--bg:#f4f6ef;--ink:#1d2820;--muted:#566457;--eco:#b4502a;--line:#cdd6c6;--panel:#fbfcf8;--focus:#f2c14e}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Atkinson Hyperlegible",Arial,sans-serif}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--panel)}
+.bar button{font:inherit;font-size:14px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+.bar button[aria-pressed=true]{background:#2f4a3a;color:#fff;border-color:#2f4a3a}
+.bar .sp{flex:1}
+.bar .hint{font-size:13px;color:var(--muted)}
+.viewport{position:relative;overflow:auto;-webkit-overflow-scrolling:touch;background:#e3e8dc}
+.stage{position:relative;width:100%;transition:width .25s ease}
+.stage img{display:block;width:100%;height:auto;user-select:none}
+.hs{position:absolute;border:0;padding:0;margin:0;background:transparent;cursor:pointer;border-radius:6px;outline:none}
+.hs:hover,.hs:focus-visible{background:rgba(242,193,78,.28);box-shadow:0 0 0 2px var(--focus)}
+.hs.cam::after{content:"";position:absolute;right:-19px;top:50%;width:13px;height:13px;margin-top:-7px;border-radius:50%;
+ background:#f2c14e url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231d2820' d='M9 4 7.2 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3.2L15 4H9zm3 4.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z'/%3E%3C/svg%3E") center/9px no-repeat;
+ box-shadow:0 0 0 1.5px #1d2820}
+.hs.zoom{border:6px solid transparent;background:transparent;pointer-events:none}.hs.zoom::before{content:'';position:absolute;inset:-6px;border:6px solid transparent;pointer-events:auto;border-radius:6px}.hs.ztag{background:rgba(255,255,255,.0)}
+.hs.zoom:hover,.hs.zoom:focus-visible{background:transparent;box-shadow:none;border-color:#f2c14e}
+.pulse .hs.cam::after{animation:pl 1.2s ease-in-out 3}
+@keyframes pl{50%{transform:scale(1.6)}}
+/* popup */
+.pop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,22,17,.55);padding:12px;z-index:10}
+.pop.on{display:flex}
+.card{background:var(--panel);border-radius:14px;max-width:560px;width:100%;max-height:96vh;overflow:auto;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.card .ph{position:relative;background:#111}
+.card .ph img{display:block;width:100%;max-height:62vh;object-fit:contain;background:#111}
+.card .nav{position:absolute;top:50%;transform:translateY(-50%);border:0;background:rgba(0,0,0,.45);color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer}
+.card .prev{left:8px}.card .next{right:8px}
+.card .body{padding:12px 16px 16px}
+.card h2{font:400 21px/1.2 "Young Serif",Georgia,serif;margin:0 0 4px}
+.card .type{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--eco);font-weight:700}
+.card .cap{margin:8px 0 0;color:var(--muted);font-size:14px}
+.card .cnt{font-size:12px;color:var(--muted)}
+.card .x{float:right;border:0;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--muted)}
+.card .nophoto{padding:14px 16px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<div class="bar" role="toolbar">
+  <button id="b1" aria-pressed="true"></button>
+  <button id="b2" aria-pressed="false"></button>
+  <button id="b3" aria-pressed="false"></button>
+  <span class="sp"></span>
+  <span class="hint" id="hint"></span>
+  <button id="zm" aria-pressed="false">＋</button>
+</div>
+<div class="viewport" id="vp"><div class="stage" id="st"><img id="map" alt=""></div></div>
+<div class="pop" id="pop" role="dialog" aria-modal="true"><div class="card" id="card"></div></div>
+<script>
+const EN=new URLSearchParams(location.search).get('lang')==='en';
+document.documentElement.lang=EN?'en':'fr';
+const T=EN?{p1:'Overview',p2:'Zoom: Likak – Souhè',p3:'Zoom: Mahomy – Mbila Liaa',hint:'Click a place name · 📷 = photos',zin:'Zoom in',zout:'Zoom out',close:'Close',nop:'No photograph of this place yet.',of:'of',alt:'Map of the Malume Ecomuseum'}
+:{p1:"Vue d'ensemble",p2:'Zoom : Likak – Souhè',p3:'Zoom : Mahomy – Mbila Liaa',hint:'Cliquez sur un nom de lieu · 📷 = photos',zin:'Agrandir',zout:'Réduire',close:'Fermer',nop:'Pas encore de photo de ce lieu.',of:'sur',alt:"Carte de l'Écomusée de Malume"};
+const TY={eco:['Écomusée','Ecomuseum'],rail:['Chemin de fer','Railway'],nat:['Nature','Nature'],agr:['Cultures','Farming'],vil:['Villages et services','Villages and services']};
+const NU='© Emmanuel Ngue Um', TM='© Tilman Musch';
+const P={ // photos: file, caption FR, caption EN, credit
+ pomlep:['chute-de-pom-lep.jpg','Chute de Pomlep','Pomlep falls',NU],
+ pomlepPont:['une-vue-du-pont-sur-la-riviere-pom-lep-depuis-le-bas.jpg','Le pont sur la rivière Pom Lep, vu d\'en bas','The bridge over the Pom Lep river, seen from below',NU],
+ likak:['liaa-li-njee-likak.jpg','Liaa Li Njéé, à Likak','Liaa Li Njéé, at Likak',NU],
+ sommet:['sommet-de-likak.jpg','Vue panoramique depuis le sommet de Likak, vers Eséka','Panoramic view from the Likak summit towards Eséka',TM],
+ eco:['ecomusee-de-malume.jpg','Ouvrages ferroviaires repris par la forêt, autour de l\'Écomusée','Railway structures reclaimed by the forest, around the Ecomuseum',NU],
+ entretien:['efforts-d-entretien.jpg','Efforts d\'entretien des ouvrages par l\'association','Upkeep of the structures by the association',NU],
+ lepPille:['pont-sur-la-riviere-lep-maben-partiellement-pille.jpg','Pont sur la rivière Lep Maben, partiellement pillé','Bridge over the Lep Maben river, partly looted',NU],
+ lepPilier:['pillier-intermediaire-du-pont-sur-la-riviere-lep-maben.jpg','Pilier intermédiaire du pont sur la rivière Lep Maben','Intermediate pier of the Lep Maben river bridge',NU],
+ lep2:['pont-lep-maben-2.jpg','Pont de Lep Maben','Lep Maben bridge',NU],
+ souhe:['ancien-arret-de-souhe.jpg','Ancien arrêt de Souhè','Former Souhè halt',NU],
+ derail:['vesiges-d-accidents-ferroviaires-01.jpg','Vestiges d\'accidents ferroviaires','Remains of railway accidents',NU],
+ kuum:['kuum-i-song-libam.jpg','Chute de Kuum i Song Libam, avec l\'équipe de terrain','Kuum i Song Libam falls, with the field team',NU],
+ mpobe:['pont-ferroviaire-metallique-sur-la-riviere-mpobe.jpg','Pont ferroviaire métallique sur la rivière Mpobe','Steel railway bridge over the Mpobe river',NU],
+ mpobeBas:['pont-ferroviaire-sur-la-riviere-mpobe-vu-de-bas.jpg','Le pont sur la Mpobe, vu d\'en bas','The Mpobe bridge, seen from below',NU],
+ mpobePilier:['un-pillier-du-pont-ferroviaire-metallique-sur-la-riviere-mpobe.jpg','Un pilier du pont métallique sur la Mpobe','A pier of the Mpobe steel bridge',NU],
+ mbilaLiaa:['buse-mbila-liaa.jpg','Buse et cours d\'eau de Mbila Liaa','Culvert and stream at Mbila Liaa',NU],
+ chefSB:['chefferie-de-song-badjeck.jpg','Chefferie de Song-Badjeck','Song-Badjeck chiefdom',NU],
+ ecoleSB:['anciens-batiments-de-l-ecole-publique-de-song-badjeck.jpg','Anciens bâtiments de l\'école publique de Song-Badjeck','Old buildings of the Song-Badjeck public school',NU],
+ tunnel2:['tunnel-de-mbila-liaa-02-cote-yaounde.jpg','Tunnel de Mbila Liaa 2, côté Yaoundé','Mbila Liaa tunnel 2, Yaoundé side',NU],
+ decau:['decauville.jpg','Voie Decauville','Decauville track',TM],
+ ngondon:['pont-de-ngo-ndon.jpg','Pont métallique sur la rivière Ngo Ndon','Steel bridge over the Ngo Ndon river',TM],
+ pk189:['pk-189.jpg','Borne du kilomètre 189','Kilometre post 189',NU],
+ pk191:['pk-191.jpg','Borne du kilomètre 191','Kilometre post 191',NU],
+ bar:['bar-chez-marie-claire.jpg','Le bar de Marie-Claire','Marie-Claire\'s bar',NU],
+ baleguel:['song-mbila-baleguel.jpg','Song Mbila Baleguel','Song Mbila Baleguel',NU],
+ log1:['buse-de-log-njambe-01.jpg','Buse de Log Njambe','Log Njambe culvert',NU],
+ log2:['buse-de-log-njambe-02.jpg','Buse de Log Njambe','Log Njambe culvert',NU]
+};
+// [x0,y0,x1,y1 in PDF points, name FR, name EN, type, photos]
+const PAGES={
+1:[[117,255,171,274,'Eséka — carrefour Tetem','Eséka — Tetem junction','vil',[]],
+ [293,336,368,347,'Chute de Pomlep','Pomlep falls','nat',['pomlep','pomlepPont']],
+ [437,311,488,329,'Liaa Li Njéé (Likak)','Liaa Li Njéé (Likak)','nat',['likak']],
+ [516,319,593,330,'Sommet de Likak','Likak summit','nat',['sommet']],
+ [435,361,575,372,'Cacaoyère écologique de Souhè','Souhè ecological cocoa farm','agr',[]],
+ [443,380,554,393,'Écomusée de Malume','Malume Ecomuseum','eco',['eco','entretien']],
+ [410,405,462,423,'Liaa Li Njéé (Lép Maben)','Liaa Li Njéé (Lép Maben)','nat',[]],
+ [400,453,484,465,'Chefferie de Souhè','Souhè chiefdom','vil',[]],
+ [259,469,343,487,'Pont de Lep Maben (côté Douala)','Lep Maben bridge (Douala side)','rail',['lepPille','lepPilier','lep2']],
+ [517,462,614,474,'Ancien arrêt de Souhè','Former Souhè halt','rail',['souhe']],
+ [334,522,428,533,'Déraillement de 1982','1982 derailment','rail',['derail']],
+ [597,489,691,501,'Chefferie de Mahomy','Mahomy chiefdom','vil',[]],
+ [447,506,524,525,"Pont de Maloume (vue d'en bas)",'Maloume bridge (from below)','rail',[]],
+ [332,499,417,511,'Kuum i Song Libam','Kuum i Song Libam','nat',['kuum']],
+ [661,548,727,566,'Pont de Mpobe (côté Yaoundé)','Mpobe bridge (Yaoundé side)','rail',['mpobe','mpobeBas','mpobePilier']],
+ [677,583,816,595,'Ancienne gare de Song-Badjeck','Former Song-Badjeck station','rail',[]],
+ [668,601,795,612,'CSI intégré de Song-Badjeck','Song-Badjeck integrated health centre','vil',[]],
+ [747,627,843,638,'Chute de Mbila Liaa 2','Mbila Liaa falls 2','nat',['mbilaLiaa']],
+ [526,607,643,618,'Chefferie de Song-Badjeck','Song-Badjeck chiefdom','vil',['chefSB']],
+ [502,591,644,602,'École publique de Song-Badjeck','Song-Badjeck public school','vil',['ecoleSB']],
+ [659,651,758,669,'Tunnel de Mbila Liaa 1 (entrée côté Douala)','Mbila Liaa tunnel 1 (Douala-side entrance)','rail',[]]],
+2:[[577,158,632,178,'Liaa Li Njéé (Likak)','Liaa Li Njéé (Likak)','nat',['likak']],
+ [676,173,758,186,'Sommet de Likak','Likak summit','nat',['sommet']],
+ [79,218,160,230,'Chute de Pomlep','Pomlep falls','nat',['pomlep','pomlepPont']],
+ [459,285,609,298,'Cacaoyère écologique de Souhè','Souhè ecological cocoa farm','agr',[]],
+ [270,335,342,346,'Liaa li Madamba','Liaa li Madamba','nat',[]],
+ [487,339,606,353,'Écomusée de Malume','Malume Ecomuseum','eco',['eco','entretien']],
+ [350,356,435,368,'Carrefour Ligwanga','Ligwanga junction','vil',[]],
+ [265,381,366,392,'Carrefour René Njambé','René Njambé junction','vil',[]],
+ [393,409,448,429,'Liaa Li Njéé (Lép Maben)','Liaa Li Njéé (Lép Maben)','nat',[]],
+ [506,491,596,503,'Chefferie de Souhè','Souhè chiefdom','vil',[]],
+ [253,491,349,502,'Buse de Log Njambe 1','Log Njambe culvert 1','rail',['log1']],
+ [111,508,209,519,'Buse de Log Njambe 2','Log Njambe culvert 2','rail',['log2']],
+ [260,506,350,526,'Pont de Lep Maben (côté Douala)','Lep Maben bridge (Douala side)','rail',['lepPille','lepPilier','lep2']],
+ [776,508,873,519,'Le bar de Marie-Claire','Marie-Claire\'s bar','vil',['bar']],
+ [114,531,212,543,'Buse de Log Njambe 3','Log Njambe culvert 3','rail',[]],
+ [289,532,421,544,'Voie Decauville de Lep Maben','Lep Maben Decauville track','rail',['decau']],
+ [340,553,420,572,'Pont de Ngo Ndon (en haut, côté Yaoundé)','Ngo Ndon bridge (top, Yaoundé side)','rail',['ngondon']],
+ [141,568,214,579,'Borne du km 189','Kilometre post 189','rail',['pk189']],
+ [238,566,285,585,'Lep Maben, sous le pont','Lep Maben, under the bridge','rail',['lepPilier']],
+ [479,571,548,583,'Mbila Baleguel','Mbila Baleguel','nat',['baleguel']],
+ [326,591,402,602,'Rivière Ngo Ndon','Ngo Ndon river','nat',['ngondon']],
+ [462,600,563,612,'Déraillement de 1982','1982 derailment','rail',['derail']],
+ [777,577,857,596,'Pont de Maloume (en haut, côté Yaoundé)','Maloume bridge (top, Yaoundé side)','rail',[]],
+ [604,596,731,608,'Pilier Decauville de Maloume','Maloume Decauville pier','rail',[]],
+ [660,618,742,638,"Pont de Maloume (vue d'en bas)",'Maloume bridge (from below)','rail',[]],
+ [400,620,471,631,'Borne du km 191','Kilometre post 191','rail',['pk191']],
+ [352,655,444,667,'Kuum i Song Libam','Kuum i Song Libam','nat',['kuum']],
+ [705,641,806,653,'Chefferie de Mahomy','Mahomy chiefdom','vil',[]],
+ [517,646,622,658,'Ancien arrêt de Souhè','Former Souhè halt','rail',['souhe']],
+ [723,661,843,672,'École Saint-Luc de Mahomy','Saint-Luc school, Mahomy','vil',[]],
+ [659,715,793,727,'Paroisse Saint-Luc de Mahomy','Saint-Luc parish, Mahomy','vil',[]]],
+3:[[110,124,207,136,'Le bar de Marie-Claire','Marie-Claire\'s bar','vil',['bar']],
+ [326,153,375,165,'Song Mbôn','Song Mbôn','agr',[]],
+ [59,164,138,183,'Pont de Maloume (en haut, côté Yaoundé)','Maloume bridge (top, Yaoundé side)','rail',[]],
+ [91,195,218,207,'Pilier Decauville de Maloume','Maloume Decauville pier','rail',[]],
+ [186,238,286,250,'Chefferie de Mahomy','Mahomy chiefdom','vil',[]],
+ [47,256,130,276,"Pont de Maloume (vue d'en bas)",'Maloume bridge (from below)','rail',[]],
+ [202,260,323,271,'École Saint-Luc de Mahomy','Saint-Luc school, Mahomy','vil',[]],
+ [181,277,315,289,'Paroisse Saint-Luc de Mahomy','Saint-Luc parish, Mahomy','vil',[]],
+ [391,287,467,298,'École de Mahomy','Mahomy school','vil',[]],
+ [349,427,419,447,'Pont de Mpobe (côté Yaoundé)','Mpobe bridge (Yaoundé side)','rail',['mpobe','mpobeBas','mpobePilier']],
+ [288,461,351,472,'Rivière Mbope','Mbope river','nat',['mpobeBas']],
+ [410,453,561,465,'École publique de Song-Badjeck','Song-Badjeck public school','vil',['ecoleSB']],
+ [427,467,552,479,'Chefferie de Song-Badjeck','Song-Badjeck chiefdom','vil',['chefSB']],
+ [243,492,379,504,'CSI intégré de Song-Badjeck','Song-Badjeck integrated health centre','vil',[]],
+ [442,499,592,512,'Ancienne gare de Song-Badjeck','Former Song-Badjeck station','rail',[]],
+ [731,615,830,634,'Tunnel de Mbila Liaa 2 (entrée côté Douala)','Mbila Liaa tunnel 2 (Douala-side entrance)','rail',['tunnel2']],
+ [645,648,748,660,'Chute de Mbila Liaa 2','Mbila Liaa falls 2','nat',['mbilaLiaa']],
+ [580,681,686,701,'Tunnel de Mbila Liaa 1 (entrée côté Douala)','Mbila Liaa tunnel 1 (Douala-side entrance)','rail',[]],
+ [742,693,842,712,'Tunnel de Mbila Liaa 2 (entrée côté Yaoundé)','Mbila Liaa tunnel 2 (Yaoundé-side entrance)','rail',['tunnel2']],
+ [611,708,710,727,'Tunnel de Mbila Liaa 1 (entrée côté Yaoundé)','Mbila Liaa tunnel 1 (Yaoundé-side entrance)','rail',[]]]
+};
+const ZOOMS=[[268,268,586,555,2],[517,412,835,698,3]], ZTAGS=[[272,271,337,284,2],[521,415,587,428,3]]; // dashed frames on page 1
+const PW=1190.55, PH=841.89;
+const st=document.getElementById('st'), img=document.getElementById('map'), pop=document.getElementById('pop'), card=document.getElementById('card');
+img.alt=T.alt;
+['b1','b2','b3'].forEach((id,i)=>{const b=document.getElementById(id);b.textContent=T['p'+(i+1)];b.onclick=()=>show(i+1)});
+document.getElementById('hint').textContent=T.hint;
+const zm=document.getElementById('zm'); zm.title=T.zin; zm.setAttribute('aria-label',T.zin);
+zm.onclick=()=>{const on=zm.getAttribute('aria-pressed')!=='true';zm.setAttribute('aria-pressed',on);st.style.width=on?'200%':'100%';zm.textContent=on?'－':'＋';zm.title=on?T.zout:T.zin};
+function pct(x0,y0,x1,y1){return `left:${x0/PW*100}%;top:${y0/PH*100}%;width:${(x1-x0)/PW*100}%;height:${(y1-y0)/PH*100}%`}
+function show(n){
+  img.src='p'+n+'.jpg';
+  ['b1','b2','b3'].forEach((id,i)=>document.getElementById(id).setAttribute('aria-pressed',i+1===n));
+  st.querySelectorAll('.hs').forEach(e=>e.remove());
+  if(n===1) ZOOMS.forEach(([x0,y0,x1,y1,to])=>{const b=document.createElement('button');b.className='hs zoom';b.style.cssText=pct(x0,y0,x1,y1);b.title=T['p'+to];b.setAttribute('aria-label',T['p'+to]);b.onclick=()=>show(to);st.appendChild(b)});
+  if(n===1) ZTAGS.forEach(([x0,y0,x1,y1,to])=>{const b=document.createElement('button');b.className='hs ztag';b.style.cssText=pct(x0-2,y0-3,x1+3,y1+3);b.title=T['p'+to];b.setAttribute('aria-label',T['p'+to]);b.onclick=()=>show(to);st.appendChild(b)});
+  PAGES[n].forEach(p=>{const [x0,y0,x1,y1,fr,en,ty,ph]=p;const b=document.createElement('button');
+    b.className='hs'+(ph.length?' cam':'');b.style.cssText=pct(x0-20,y0-4,x1+4,y1+4);
+    b.title=EN?en:fr;b.setAttribute('aria-label',EN?en:fr);b.onclick=e=>{e.stopPropagation();open(p)};st.appendChild(b)});
+  st.classList.remove('pulse');void st.offsetWidth;st.classList.add('pulse');
+}
+let cur,idx;
+function open(p){cur=p;idx=0;render();pop.classList.add('on');card.querySelector('.x').focus()}
+function render(){
+  const [,, ,,fr,en,ty,ph]=cur; const t=TY[ty][EN?1:0];
+  let h=`<div class="body" style="padding-bottom:6px"><button class="x" aria-label="${T.close}">×</button><div class="type">${t}</div><h2>${EN?en:fr}</h2></div>`;
+  if(ph.length){const q=P[ph[idx]];
+    h+=`<div class="ph"><img src="photos/${q[0]}" alt="${EN?q[2]:q[1]}">${ph.length>1?'<button class="nav prev" aria-label="‹">‹</button><button class="nav next" aria-label="›">›</button>':''}</div>
+    <div class="body"><p class="cap">${EN?q[2]:q[1]} · ${q[3]}</p>${ph.length>1?`<div class="cnt">${idx+1} ${T.of} ${ph.length}</div>`:''}</div>`;
+  } else h+=`<p class="nophoto">${T.nop}</p><div class="body"></div>`;
+  card.innerHTML=h;
+  card.querySelector('.x').onclick=close;
+  const pv=card.querySelector('.prev'),nx=card.querySelector('.next');
+  if(pv){pv.onclick=()=>{idx=(idx-1+ph.length)%ph.length;render()};nx.onclick=()=>{idx=(idx+1)%ph.length;render()}}
+}
+function close(){pop.classList.remove('on')}
+pop.onclick=e=>{if(e.target===pop)close()};
+document.addEventListener('keydown',e=>{if(!pop.classList.contains('on'))return;if(e.key==='Escape')close();
+  if(cur&&cur[7].length>1){if(e.key==='ArrowRight'){idx=(idx+1)%cur[7].length;render()}if(e.key==='ArrowLeft'){idx=(idx-1+cur[7].length)%cur[7].length;render()}}});
+show(1);
+</script>
+</body>
+</html>
