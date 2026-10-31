@@ -16,12 +16,14 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Atkinso
 .bar .sp{flex:1}
 .bar .hint{font-size:13px;color:var(--muted)}
 .viewport{position:relative;overflow:auto;-webkit-overflow-scrolling:touch;background:#e3e8dc}
-.stage{position:relative;width:100%;transition:width .25s ease}
+.stage{position:relative;width:min(100%,calc((100vh - 54px) * 1.4141));margin:0 auto;transition:width .25s ease}
+.viewport{height:calc(100vh - 54px)}
+.bar{min-height:54px}
 .stage img{display:block;width:100%;height:auto;user-select:none}
 .hs{position:absolute;border:0;padding:0;margin:0;background:transparent;cursor:pointer;border-radius:6px;outline:none}
 .hs:hover,.hs:focus-visible{background:rgba(242,193,78,.28);box-shadow:0 0 0 2px var(--focus)}
-.hs.cam::after{content:"";position:absolute;right:-19px;top:50%;width:13px;height:13px;margin-top:-7px;border-radius:50%;
- background:#f2c14e url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231d2820' d='M9 4 7.2 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3.2L15 4H9zm3 4.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z'/%3E%3C/svg%3E") center/9px no-repeat;
+.hs.cam::after{content:"";position:absolute;right:-15px;top:50%;width:11px;height:11px;margin-top:-6px;border-radius:50%;
+ background:#f2c14e url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231d2820' d='M9 4 7.2 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3.2L15 4H9zm3 4.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z'/%3E%3C/svg%3E") center/7px no-repeat;
  box-shadow:0 0 0 1.5px #1d2820}
 .hs.zoom{border:6px solid transparent;background:transparent;pointer-events:none}.hs.zoom::before{content:'';position:absolute;inset:-6px;border:6px solid transparent;pointer-events:auto;border-radius:6px}.hs.ztag{background:rgba(255,255,255,.0)}
 .hs.zoom:hover,.hs.zoom:focus-visible{background:transparent;box-shadow:none;border-color:#f2c14e}
@@ -173,7 +175,7 @@ img.alt=T.alt;
 ['b1','b2','b3'].forEach((id,i)=>{const b=document.getElementById(id);b.textContent=T['p'+(i+1)];b.onclick=()=>show(i+1)});
 document.getElementById('hint').textContent=T.hint;
 const zm=document.getElementById('zm'); zm.title=T.zin; zm.setAttribute('aria-label',T.zin);
-zm.onclick=()=>{const on=zm.getAttribute('aria-pressed')!=='true';zm.setAttribute('aria-pressed',on);st.style.width=on?'200%':'100%';zm.textContent=on?'－':'＋';zm.title=on?T.zout:T.zin};
+zm.onclick=()=>{const on=zm.getAttribute('aria-pressed')!=='true';zm.setAttribute('aria-pressed',on);st.style.width=on?'220%':'';zm.textContent=on?'－':'＋';zm.title=on?T.zout:T.zin};
 function pct(x0,y0,x1,y1){return `left:${x0/PW*100}%;top:${y0/PH*100}%;width:${(x1-x0)/PW*100}%;height:${(y1-y0)/PH*100}%`}
 function show(n){
   img.src='p'+n+'.jpg';
