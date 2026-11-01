@@ -16,9 +16,11 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Atkinso
 .bar .sp{flex:1}
 .bar .hint{font-size:13px;color:var(--muted)}
 .viewport{position:relative;overflow:auto;-webkit-overflow-scrolling:touch;background:#e3e8dc}
-.stage{position:relative;width:min(100%,calc((100vh - 54px) * 1.4141));margin:0 auto;transition:width .25s ease}
-.viewport{height:calc(100vh - 54px)}
-.bar{min-height:54px}
+.stage{position:relative;width:100%;margin:0 auto}
+.viewport{height:calc(100vh - 54px);touch-action:pan-x pan-y pinch-zoom}
+.bar{min-height:46px}
+.bar .zb{min-width:38px;font-size:17px;padding:3px 10px;font-weight:700}
+
 .stage img{display:block;width:100%;height:auto;user-select:none}
 .hs{position:absolute;border:0;padding:0;margin:0;background:transparent;cursor:pointer;border-radius:6px;outline:none}
 .hs:hover,.hs:focus-visible{background:rgba(242,193,78,.28);box-shadow:0 0 0 2px var(--focus)}
@@ -44,6 +46,11 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Atkinso
 .card .cnt{font-size:12px;color:var(--muted)}
 .card .x{float:right;border:0;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--muted)}
 .card .nophoto{padding:14px 16px 0;color:var(--muted);font-size:14px}
+@media (max-width:700px),(max-height:460px){.bar{flex-wrap:nowrap;overflow-x:auto;gap:4px;padding:5px 6px;min-height:40px;scrollbar-width:none}.bar::-webkit-scrollbar{display:none}.bar button{font-size:12.5px;padding:4px 10px;white-space:nowrap;flex:0 0 auto}.bar .zb{min-width:34px;font-size:16px}.bar .hint{display:none}.bar .sp{flex:0 0 4px}}
+@media (max-height:520px){.card .ph img{max-height:48vh}.card h2{font-size:17px}.card .body{padding:8px 12px 10px}}
+@media (max-width:600px){.pop{align-items:flex-end;padding:0}.card{border-radius:14px 14px 0 0;max-height:92vh}}
+.zg{display:flex;gap:6px}
+@media (max-width:700px){.zg{position:fixed;right:10px;bottom:12px;flex-direction:column;z-index:5}.zg .zb{width:42px;height:42px;border-radius:50%;padding:0;font-size:19px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35)}}
 </style>
 </head>
 <body>
@@ -53,7 +60,7 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Atkinso
   <button id="b3" aria-pressed="false"></button>
   <span class="sp"></span>
   <span class="hint" id="hint"></span>
-  <button id="zm" aria-pressed="false">＋</button>
+  <span class="zg"><button id="zm" class="zb">＋</button><button id="zo" class="zb">－</button><button id="fs" class="zb" title="">⤢</button></span>
 </div>
 <div class="viewport" id="vp"><div class="stage" id="st"><img id="map" alt=""></div></div>
 <div class="pop" id="pop" role="dialog" aria-modal="true"><div class="card" id="card"></div></div>
@@ -65,6 +72,7 @@ const T=EN?{p1:'Overview',p2:'Zoom: Likak – Souhè',p3:'Zoom: Mahomy – Mbila
 const TY={eco:['Écomusée','Ecomuseum'],rail:['Chemin de fer','Railway'],nat:['Nature','Nature'],agr:['Cultures','Farming'],vil:['Villages et services','Villages and services']};
 const NU='© Emmanuel Ngue Um', TM='© Tilman Musch';
 const P={ // photos: file, caption FR, caption EN, credit
+ gareSB:['../../galerie/photos/ancienne-gare-de-song-badjeck.jpg','Ancienne gare de Song-Badjeck','Former Song-Badjeck station',TM],
  pomlep:['chute-de-pom-lep.jpg','Chute de Pomlep','Pomlep falls',NU],
  pomlepPont:['une-vue-du-pont-sur-la-riviere-pom-lep-depuis-le-bas.jpg','Le pont sur la rivière Pom Lep, vu d\'en bas','The bridge over the Pom Lep river, seen from below',NU],
  likak:['liaa-li-njee-likak.jpg','Liaa Li Njéé, à Likak','Liaa Li Njéé, at Likak',NU],
@@ -110,7 +118,7 @@ const PAGES={
  [447,506,524,525,"Pont de Maloume (vue d'en bas)",'Maloume bridge (from below)','rail',[]],
  [332,499,417,511,'Kuum i Song Libam','Kuum i Song Libam','nat',['kuum']],
  [661,548,727,566,'Pont de Mpobe (côté Yaoundé)','Mpobe bridge (Yaoundé side)','rail',['mpobe','mpobeBas','mpobePilier']],
- [677,583,816,595,'Ancienne gare de Song-Badjeck','Former Song-Badjeck station','rail',[]],
+ [677,583,816,595,'Ancienne gare de Song-Badjeck','Former Song-Badjeck station','rail',['gareSB']],
  [668,601,795,612,'CSI intégré de Song-Badjeck','Song-Badjeck integrated health centre','vil',[]],
  [747,627,843,638,'Chute de Mbila Liaa 2','Mbila Liaa falls 2','nat',['mbilaLiaa']],
  [526,607,643,618,'Chefferie de Song-Badjeck','Song-Badjeck chiefdom','vil',['chefSB']],
@@ -161,7 +169,7 @@ const PAGES={
  [410,453,561,465,'École publique de Song-Badjeck','Song-Badjeck public school','vil',['ecoleSB']],
  [427,467,552,479,'Chefferie de Song-Badjeck','Song-Badjeck chiefdom','vil',['chefSB']],
  [243,492,379,504,'CSI intégré de Song-Badjeck','Song-Badjeck integrated health centre','vil',[]],
- [442,499,592,512,'Ancienne gare de Song-Badjeck','Former Song-Badjeck station','rail',[]],
+ [442,499,592,512,'Ancienne gare de Song-Badjeck','Former Song-Badjeck station','rail',['gareSB']],
  [731,615,830,634,'Tunnel de Mbila Liaa 2 (entrée côté Douala)','Mbila Liaa tunnel 2 (Douala-side entrance)','rail',['tunnel2']],
  [645,648,748,660,'Chute de Mbila Liaa 2','Mbila Liaa falls 2','nat',['mbilaLiaa']],
  [580,681,686,701,'Tunnel de Mbila Liaa 1 (entrée côté Douala)','Mbila Liaa tunnel 1 (Douala-side entrance)','rail',[]],
@@ -174,8 +182,23 @@ const st=document.getElementById('st'), img=document.getElementById('map'), pop=
 img.alt=T.alt;
 ['b1','b2','b3'].forEach((id,i)=>{const b=document.getElementById(id);b.textContent=T['p'+(i+1)];b.onclick=()=>show(i+1)});
 document.getElementById('hint').textContent=T.hint;
-const zm=document.getElementById('zm'); zm.title=T.zin; zm.setAttribute('aria-label',T.zin);
-zm.onclick=()=>{const on=zm.getAttribute('aria-pressed')!=='true';zm.setAttribute('aria-pressed',on);st.style.width=on?'220%':'';zm.textContent=on?'－':'＋';zm.title=on?T.zout:T.zin};
+const zm=document.getElementById('zm'),zo=document.getElementById('zo'),fs=document.getElementById('fs'),vp=document.getElementById('vp'),bar=document.querySelector('.bar');
+const ZL=[1,1.6,2.5,4];let zi=0;const INFRAME=window.self!==window.top;
+zm.title=T.zin;zm.setAttribute('aria-label',T.zin);zo.title=T.zout;zo.setAttribute('aria-label',T.zout);
+fs.title=EN?'Open full screen':'Ouvrir en plein écran';fs.setAttribute('aria-label',fs.title);
+function layout(keep){const cx=vp.scrollLeft+vp.clientWidth/2,cy=vp.scrollTop+vp.clientHeight/2,ow=st.offsetWidth||1;
+  vp.style.height=(window.innerHeight-bar.offsetHeight)+'px';
+  const w=vp.clientWidth,h=vp.clientHeight;let base=Math.min(w,h*PW/PH);
+  if(!INFRAME&&w<h&&w<700)base=Math.max(w,h*PW/PH*0.92);
+  const nw=Math.round(base*ZL[zi]);st.style.width=nw+'px';
+  const r=nw/ow;if(keep){vp.scrollLeft=cx*r-vp.clientWidth/2;vp.scrollTop=cy*r-vp.clientHeight/2}
+  else{vp.scrollLeft=(nw-vp.clientWidth)/2;vp.scrollTop=0}
+  zo.disabled=zi===0;zm.disabled=zi===ZL.length-1;zo.style.opacity=zi===0?.4:1;zm.style.opacity=zi===ZL.length-1?.4:1}
+zm.onclick=()=>{if(zi<ZL.length-1){zi++;layout(true)}};
+zo.onclick=()=>{if(zi>0){zi--;layout(true)}};
+fs.onclick=()=>{if(INFRAME){window.open(location.href,'_blank','noopener')}else if(document.fullscreenElement){document.exitFullscreen()}else if(document.documentElement.requestFullscreen){document.documentElement.requestFullscreen().catch(()=>{})}};
+if(!INFRAME&&!document.documentElement.requestFullscreen)fs.style.display='none';
+window.addEventListener('resize',()=>layout(true));
 function pct(x0,y0,x1,y1){return `left:${x0/PW*100}%;top:${y0/PH*100}%;width:${(x1-x0)/PW*100}%;height:${(y1-y0)/PH*100}%`}
 function show(n){
   img.src='p'+n+'.jpg';
@@ -207,6 +230,7 @@ pop.onclick=e=>{if(e.target===pop)close()};
 document.addEventListener('keydown',e=>{if(!pop.classList.contains('on'))return;if(e.key==='Escape')close();
   if(cur&&cur[7].length>1){if(e.key==='ArrowRight'){idx=(idx+1)%cur[7].length;render()}if(e.key==='ArrowLeft'){idx=(idx-1+cur[7].length)%cur[7].length;render()}}});
 show(1);
+img.addEventListener('load',()=>{if(!layout.done){layout.done=1;layout(false)}});layout(false);
 </script>
 </body>
 </html>
