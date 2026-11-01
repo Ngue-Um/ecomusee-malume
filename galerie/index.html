@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Écomusée de Malumé · Galerie de terrain</title>
+<style>
+:root{--g:#2f4a3a;--g2:#24382c;--cream:#f4efe2;--sand:#e8dfc9;--ink:#1d2a22}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--g2);color:var(--cream);font-family:"Open Sans",Lato,system-ui,-apple-system,Segoe UI,Arial,sans-serif;overflow:hidden}
+.app{display:flex;flex-direction:column;height:100vh;height:100dvh}
+.bar{display:flex;align-items:center;gap:6px;padding:8px 10px;background:var(--g);flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.bar::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid rgba(244,239,226,.45);background:transparent;color:var(--cream);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--cream);color:var(--g);border-color:var(--cream);font-weight:600}
+.count{margin-left:auto;flex:0 0 auto;font-size:12px;opacity:.8;padding-left:8px}
+.stage{position:relative;flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;background:#111a14;touch-action:pan-y}
+.stage img{max-width:100%;max-height:100%;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none;transition:opacity .25s}
+.stage img.fade{opacity:0}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;font-size:24px;line-height:44px;cursor:pointer}
+.nav:hover{background:rgba(0,0,0,.65)}
+.prev{left:10px}.next{right:10px}
+.cap{padding:8px 14px 6px;background:var(--g);min-height:52px}
+.cap .t{font-size:15px;font-weight:600;line-height:1.3}
+.cap .c{font-size:12px;opacity:.8;margin-top:2px}
+.thumbs{display:flex;gap:6px;padding:8px 10px;overflow-x:auto;background:var(--g2);scrollbar-width:thin}
+.thumbs button{flex:0 0 auto;border:2px solid transparent;border-radius:4px;padding:0;background:none;cursor:pointer;opacity:.6}
+.thumbs button.on{border-color:var(--cream);opacity:1}
+.thumbs img{display:block;height:54px;width:auto;border-radius:2px}
+@media (max-width:600px){
+  .nav{width:38px;height:38px;line-height:38px;font-size:20px}
+  .cap .t{font-size:14px}
+  .thumbs img{height:44px}
+}
+@media (max-height:420px){.thumbs{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="bar" id="bar"></div>
+  <div class="stage" id="stage">
+    <img id="big" alt="">
+    <button class="nav prev" id="prev" aria-label="Précédent">‹</button>
+    <button class="nav next" id="next" aria-label="Suivant">›</button>
+  </div>
+  <div class="cap"><div class="t" id="t"></div><div class="c" id="c"></div></div>
+  <div class="thumbs" id="thumbs"></div>
+</div>
+<script>
+var ITEMS=[{"f":"pont-metallique-sur-la-riviviere-ngo-ndon-01.jpg","fr":"Pont métallique sur la rivière Ngo Ndon","en":"Metal bridge over the Ngo Ndon river","c":"rail","cr":"Tilman Musch, oct. 2026"},{"f":"pont-metallique-sur-la-riviviere-ngo-ndon-012.jpg","fr":"Pont métallique sur la rivière Ngo Ndon","en":"Metal bridge over the Ngo Ndon river","c":"rail","cr":"Tilman Musch, oct. 2026"},{"f":"pillier-massifs-et-imposants-des-ponts-metalliques.jpg","fr":"Piliers massifs et imposants des ponts métalliques","en":"The massive, imposing piers of the metal bridges","c":"rail","cr":"Tilman Musch, oct. 2026"},{"f":"prouesse-d-ingenierie-dans-la-construction-des-infrastructures-ferroviaires.jpg","fr":"Prouesse d'ingénierie dans la construction des infrastructures ferroviaires","en":"An engineering feat in the construction of the railway infrastructure","c":"rail","cr":"Tilman Musch, oct. 2026"},{"f":"tunnel-dit-de-njock-creuse-a-mains-d-hommes-01.jpg","fr":"Le tunnel dit de Njock, creusé à mains d'hommes","en":"The so-called Njock tunnel, dug by hand","c":"rail","cr":"Tilman Musch, oct. 2026"},{"f":"tunnel-dit-de-njock-creuse-a-mains-d-hommes-02.jpg","fr":"Le tunnel dit de Njock, creusé à mains d'hommes","en":"The so-called Njock tunnel, dug by hand","c":"rail","cr":"Tilman Musch, oct. 2026"},{"f":"structure-rocheuse-extraite-des-tunnels-de-ndjock.jpg","fr":"Roche extraite des tunnels de Njock","en":"Rock extracted from the Njock tunnels","c":"rail","cr":"Tilman Musch, oct. 2026"},{"f":"ouvrages-ferroviaires-repris-par-la-vegetation.jpg","fr":"Ouvrages ferroviaires repris par la végétation","en":"Railway structures reclaimed by vegetation","c":"rail","cr":"Tilman Musch, oct. 2026"},{"f":"vestiges-du-pont-de-la-decauville-sur-la-riviere-malume.jpg","fr":"Vestiges du pont de la Decauville sur la rivière Malume","en":"Remains of the Decauville bridge over the Malume river","c":"rail","cr":"Tilman Musch, oct. 2026"},{"f":"ancienne-gare-de-song-badjeck.jpg","fr":"Ancienne gare de Song-Badjeck","en":"The former Song-Badjeck station","c":"rail","cr":"Tilman Musch, oct. 2026"},{"f":"objets-ferroviaires-s-nserant-dans-loutillage-quotidien-01.jpg","fr":"Objets ferroviaires intégrés à l'outillage du quotidien","en":"Railway objects absorbed into everyday tools","c":"comm","cr":"Tilman Musch, oct. 2026"},{"f":"objets-ferroviaires-s-nserant-dans-loutillage-quotidien-02.jpg","fr":"Objets ferroviaires intégrés à l'outillage du quotidien","en":"Railway objects absorbed into everyday tools","c":"comm","cr":"Tilman Musch, oct. 2026"},{"f":"au-dela-du-travail-force-une-nature-gratifiante.jpg","fr":"Au-delà du travail forcé, une nature gratifiante","en":"Beyond forced labour, a rewarding natural world","c":"nature","cr":"Tilman Musch, oct. 2026"},{"f":"vue-panoramique-d-eseka-depuis-le-sommet-de-likak-01.jpg","fr":"Vue panoramique d'Eséka depuis le sommet de Likak","en":"Panoramic view of Eséka from the summit of Likak","c":"nature","cr":"Tilman Musch, oct. 2026"},{"f":"vue-panoramique-d-eseka-depuis-le-sommet-de-likak-02.jpg","fr":"Vue panoramique d'Eséka depuis le sommet de Likak","en":"Panoramic view of Eséka from the summit of Likak","c":"nature","cr":"Tilman Musch, oct. 2026"},{"f":"pharmacopee-01.jpg","fr":"Pharmacopée locale : plantes de la forêt de Malumé","en":"Local pharmacopoeia: plants of the Malumé forest","c":"nature","cr":"Tilman Musch, oct. 2026"},{"f":"pharmacopee-02.jpg","fr":"Pharmacopée locale : plantes de la forêt de Malumé","en":"Local pharmacopoeia: plants of the Malumé forest","c":"nature","cr":"Tilman Musch, oct. 2026"},{"f":"pont-ferroviaire-metallique-sur-la-riviere-mpobe.jpg","fr":"Pont ferroviaire métallique sur la rivière Mpobe","en":"Metal railway bridge over the Mpobe river","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"pont-ferroviaire-sur-la-riviere-mpobe-vu-de-bas.jpg","fr":"Le pont ferroviaire sur la rivière Mpobe, vu d'en bas","en":"The railway bridge over the Mpobe river, seen from below","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"un-pillier-du-pont-ferroviaire-metallique-sur-la-riviere-mpobe.jpg","fr":"Un pilier du pont ferroviaire métallique sur la rivière Mpobe","en":"A pier of the metal railway bridge over the Mpobe river","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"une-vue-du-pont-sur-la-riviere-pom-lep-depuis-le-bas.jpg","fr":"Le pont sur la rivière Pom Lep, vu d'en bas","en":"The bridge over the Pom Lep river, seen from below","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"pillier-intermediaire-du-pont-sur-la-riviere-lep-maben.jpg","fr":"Pilier intermédiaire du pont sur la rivière Lép Maben","en":"Intermediate pier of the bridge over the Lép Maben river","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"pont-sur-la-riviere-lep-maben-partiellement-pille.jpg","fr":"Pont sur la rivière Lép Maben, partiellement pillé","en":"Bridge over the Lép Maben river, partly looted","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"tunnel-de-mbila-liaa-02-cote-yaounde.jpg","fr":"Tunnel de Mbila Liaa, côté Yaoundé","en":"Mbila Liaa tunnel, Yaoundé side","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"buse-mbila-liaa.jpg","fr":"Buse de Mbila Liaa","en":"Mbila Liaa culvert","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"buse-de-log-njambe-01.jpg","fr":"Buse de Log Njambe","en":"Log Njambe culvert","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"buse-de-log-njambe-02.jpg","fr":"Buse de Log Njambe","en":"Log Njambe culvert","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"pk-189.jpg","fr":"Borne kilométrique PK 189","en":"Kilometre marker PK 189","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"pk-191.jpg","fr":"Borne kilométrique PK 191","en":"Kilometre marker PK 191","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"ancien-arret-de-ndjock.jpg","fr":"Ancien arrêt de Njock","en":"The former Njock stop","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"ancien-arret-de-souhe.jpg","fr":"Ancien arrêt de Souhè","en":"The former Souhè stop","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"vesiges-d-accidents-ferroviaires-01.jpg","fr":"Vestiges d'accidents ferroviaires","en":"Remains of railway accidents","c":"rail","cr":"Emmanuel Ngue Um"},{"f":"chute-de-pom-lep.jpg","fr":"Chute de Pom Lep","en":"Pom Lep waterfall","c":"nature","cr":"Emmanuel Ngue Um"},{"f":"liaa-li-njee-likak.jpg","fr":"Rocher de Liaa Li Njéé, Likak","en":"Liaa Li Njéé rock, Likak","c":"nature","cr":"Emmanuel Ngue Um"},{"f":"song-mbila-baleguel.jpg","fr":"Song Mbila Baleguel","en":"Song Mbila Baleguel","c":"nature","cr":"Emmanuel Ngue Um"},{"f":"chefferie-de-song-badjeck.jpg","fr":"Chefferie de Song-Badjeck","en":"Song-Badjeck chiefdom","c":"comm","cr":"Emmanuel Ngue Um"},{"f":"anciens-batiments-de-l-ecole-publique-de-song-badjeck.jpg","fr":"Anciens bâtiments de l'école publique de Song-Badjeck","en":"Former buildings of the Song-Badjeck public school","c":"comm","cr":"Emmanuel Ngue Um"},{"f":"bar-chez-marie-claire.jpg","fr":"Bar « Chez Marie-Claire »","en":"“Chez Marie-Claire” bar","c":"comm","cr":"Emmanuel Ngue Um"},{"f":"efforts-d-entretien.jpg","fr":"Entretien des ouvrages ferroviaires par l'association","en":"Maintenance of the railway structures by the association","c":"comm","cr":"Emmanuel Ngue Um"}];
+var q=new URLSearchParams(location.search);
+var L=q.get('lang')==='en'?'en':'fr';
+document.documentElement.lang=L;
+var CATS={all:{fr:'Tout',en:'All'},rail:{fr:'Patrimoine ferroviaire',en:'Railway heritage'},nature:{fr:'Nature et paysages',en:'Nature & landscapes'},comm:{fr:'Communautés',en:'Communities'}};
+var cat=q.get('set')||'all'; if(!CATS[cat])cat='all';
+var list=[],i=0;
+var bar=document.getElementById('bar'),big=document.getElementById('big'),th=document.getElementById('thumbs');
+var cnt=document.createElement('span');cnt.className='count';
+Object.keys(CATS).forEach(function(k){var b=document.createElement('button');b.className='chip';b.textContent=CATS[k][L];b.dataset.k=k;b.onclick=function(){setCat(k)};bar.appendChild(b)});
+bar.appendChild(cnt);
+if(q.get('chips')==='0')bar.querySelectorAll('.chip').forEach(function(b){b.style.display='none'});
+function setCat(k){cat=k;list=ITEMS.filter(function(x){return k==='all'||x.c===k});i=0;
+  bar.querySelectorAll('.chip').forEach(function(b){b.classList.toggle('on',b.dataset.k===k)});
+  th.innerHTML='';list.forEach(function(x,j){var b=document.createElement('button');b.innerHTML='<img loading="lazy" src="photos/t-'+x.f+'" alt="">';b.onclick=function(){show(j)};th.appendChild(b)});show(0)}
+function show(j){if(!list.length)return;i=(j+list.length)%list.length;var x=list[i];
+  big.classList.add('fade');var im=new Image();im.onload=function(){big.src=im.src;big.alt=x[L];big.classList.remove('fade')};im.src='photos/'+x.f;
+  document.getElementById('t').textContent=x[L];
+  document.getElementById('c').textContent='© '+(L==='en'?x.cr.replace('oct.','Oct'):x.cr);
+  cnt.textContent=(i+1)+' / '+list.length;
+  [].forEach.call(th.children,function(b,k){b.classList.toggle('on',k===i)});
+  var a=th.children[i];if(a)a.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  var n=new Image();n.src='photos/'+list[(i+1)%list.length].f;}
+document.getElementById('prev').onclick=function(){show(i-1)};
+document.getElementById('next').onclick=function(){show(i+1)};
+document.getElementById('prev').setAttribute('aria-label',L==='en'?'Previous':'Précédent');
+document.getElementById('next').setAttribute('aria-label',L==='en'?'Next':'Suivant');
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')show(i-1);if(e.key==='ArrowRight')show(i+1)});
+var sx=null,sy=null,st=document.getElementById('stage');
+st.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+st.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy))show(dx<0?i+1:i-1);sx=null},{passive:true});
+setCat(cat);
+</script>
+</body>
+</html>
